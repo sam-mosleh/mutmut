@@ -10,7 +10,7 @@ def _mark_generated(code: str) -> str:
     lines = []
     for line in code.splitlines():
         stripped = line.strip()
-        if stripped and not stripped.startswith("#"):
+        if stripped and not stripped.startswith("#") and not stripped.startswith('"""'):
             line = f"{line} {GENERATED_MARKER}"
         lines.append(line)
     return "\n".join(lines)

@@ -6,16 +6,13 @@ WORKDIR /mutmut
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-ARG PYTHON_VERSION
 ENV UV_PROJECT_ENVIRONMENT=/opt/venv \
-    UV_PYTHON_PREFERENCE=only-system \
-    UV_PYTHON=${PYTHON_VERSION}
+    UV_PYTHON_PREFERENCE=only-system
 
-COPY pyproject.toml uv.lock ./
-
-RUN uv sync --group dev --no-install-project
-
-COPY . .
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project
 
 ENTRYPOINT ["uv", "run", "pytest"]
 CMD ["--verbose"]

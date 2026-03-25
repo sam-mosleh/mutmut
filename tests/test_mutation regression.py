@@ -101,7 +101,7 @@ MutantDict = Annotated[dict[str, Callable[..., TReturn]], "Mutant"] # type: igno
 
 
 def _mutmut_trampoline(orig: Callable[..., TReturn], mutants: MutantDict, call_args: Sequence, call_kwargs: dict, self_arg = None) -> TReturn: # type: ignore # mutmut generated
-    """Forward call to original or mutated function, depending on the environment""" # type: ignore # mutmut generated
+    """Forward call to original or mutated function, depending on the environment"""
     import os # type: ignore # mutmut generated
     mutant_under_test = os.environ.get('MUTANT_UNDER_TEST', '') # type: ignore # mutmut generated
     if not mutant_under_test: # type: ignore # mutmut generated
